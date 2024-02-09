@@ -4,6 +4,7 @@ import chairIcon from './chair.png';
 
 
 const ColorCode = () => {
+    // make the buttons dynamic instead of static
     return (
         <div className="color-code-container">
             <Button

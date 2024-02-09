@@ -89,6 +89,7 @@ function PremiumTable2({ rows, columns }) {
         const key = `Premium2_${String.fromCharCode(65 + i)}_${j + 1}`;
         cells.push(
           <td key={key} style={{ textAlign: 'center' }}>
+            {/* avoid inline styles */}
             <Button
               variant="outline-secondary"
               style={{
