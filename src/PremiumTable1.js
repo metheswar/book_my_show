@@ -26,24 +26,45 @@ function PremiumTable1({ rows, columns }) {
   };
 
   const submitHandler = (key) => {
-    if (selectedSeats.has(key)) {
-        let newSet = new Set(selectedSeats);
-        newSet.delete(key);
-        setSelectedSeats(newSet);
-        return;
-    }
+    if (selectedSeats.size >= noOfSeats) {
+      setSelectedSeats(new Set())
+      setFull(false)
+      setSelectedSeats((prevSelectedSeats) => {
+
+        const newSelectedSeats = new Set(prevSelectedSeats);
+        newSelectedSeats.add(key);
+
+        if (noOfSeats > 1) {
+            const [type, row, seat] = key.split('_');
+            const seatNumber = parseInt(seat);
+
+            let consecutiveSeats = 1;
+            while (consecutiveSeats < noOfSeats) {
+                const nextSeatKey = `${type}_${row}_${seatNumber + consecutiveSeats}`;
+                if (!validate(nextSeatKey) && seatNumber + consecutiveSeats <= columns) {
+                    newSelectedSeats.add(nextSeatKey);
+                    consecutiveSeats++;
+                } else {
+                    break;
+                }
+            }
+        }
+        setFull(true);
+        return newSelectedSeats;
+    });
+  }
+
     if (type === undefined || noOfSeats === undefined) {
         return;
     }
+
     if (full) {
         selectRemainingSeat(key);
         return;
     }
-    if (selectedSeats.size >= noOfSeats) {
-        return;
-    }
 
     setSelectedSeats((prevSelectedSeats) => {
+
         const newSelectedSeats = new Set(prevSelectedSeats);
         newSelectedSeats.add(key);
 
@@ -73,11 +94,23 @@ function PremiumTable1({ rows, columns }) {
       return;
     }
     if (!selectedSeats.has(key)) {
-      setSelectedSeats((prevSelectedSeats) => {
-        const newSelectedSeats = new Set(prevSelectedSeats);
-        newSelectedSeats.add(key);
-        return newSelectedSeats;
-      });
+      const remainingSeats = noOfSeats-selectedSeats.size;
+      const [type, row, seat] = key.split('_');
+      const seatNumber = parseInt(seat)
+      const newSelectedSeats = new Set(selectedSeats);
+      newSelectedSeats.add(key);
+      let consecutiveSeats = 1;
+      while(consecutiveSeats < remainingSeats){
+        const nextSeatKey = `${type}_${row}_${seatNumber + consecutiveSeats}`;
+        if (!validate(nextSeatKey) && seatNumber + consecutiveSeats <= columns) {
+          newSelectedSeats.add(nextSeatKey);
+          consecutiveSeats++;
+      } else {
+          break;
+      }
+      }
+      setSelectedSeats(newSelectedSeats)
+      setFull(false)
     }
   };
 

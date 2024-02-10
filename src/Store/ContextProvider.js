@@ -17,6 +17,11 @@ const ContextProvider = (props) => {
     }
   }, []);
 
+  useEffect(()=>{
+setSelectedSeats(new Set())
+setFull(false)
+  },[type,noOfSeats])
+
   useEffect(() => {
     localStorage.setItem('alreadyBooked', JSON.stringify(Array.from(alreadyBooked)));
   }, [alreadyBooked]);

@@ -5,7 +5,7 @@ import Cards from './Cards';
 import Context from './Store/Context';
 
 const Home = () => {
-    const {movies,setSelectedMovie} = useContext(Context)
+    const {movies,setSelectedMovie,setFull,setType,setNoOfSeats} = useContext(Context)
 
    const navigate = useNavigate();
     const submitHandler = () => {
@@ -13,6 +13,9 @@ const Home = () => {
     };
     useEffect(()=>{
         setSelectedMovie()
+        setFull(false)
+        setType()
+        setNoOfSeats()
         },[])
 
     return (

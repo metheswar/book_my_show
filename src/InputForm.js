@@ -17,7 +17,11 @@ const InputForm = () => {
     const handleNoOfSeatsChange = (e) => {
         setNoOfSeats(parseInt(e.target.value));
     };
-
+const validate = () =>{
+    if(selectedSeats.size !== noOfSeats){
+        return true;
+    }
+}
     const checkoutHandler = (e) => {
         e.preventDefault();
         if (selectedSeats.size === noOfSeats) {
@@ -60,7 +64,7 @@ const InputForm = () => {
                         </div>
                     </div>
                     <div className="col-xs-12 col-md-3">
-                        <button className="btn btn-primary checkout-button" onClick={checkoutHandler}>
+                        <button className="btn btn-primary checkout-button" onClick={checkoutHandler} disabled={validate()}>
                             Book seats
                         </button>
                     </div>
