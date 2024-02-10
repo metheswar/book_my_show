@@ -26,40 +26,47 @@ function PremiumTable1({ rows, columns }) {
   };
 
   const submitHandler = (key) => {
+    if (selectedSeats.has(key)) {
+        let newSet = new Set(selectedSeats);
+        newSet.delete(key);
+        setSelectedSeats(newSet);
+        return;
+    }
     if (type === undefined || noOfSeats === undefined) {
-      return;
+        return;
     }
     if (full) {
-      selectRemainingSeat(key);
-      return;
+        selectRemainingSeat(key);
+        return;
     }
     if (selectedSeats.size >= noOfSeats) {
-      return;
+        return;
     }
 
     setSelectedSeats((prevSelectedSeats) => {
-      const newSelectedSeats = new Set(prevSelectedSeats);
-      newSelectedSeats.add(key);
+        const newSelectedSeats = new Set(prevSelectedSeats);
+        newSelectedSeats.add(key);
 
-      if (noOfSeats > 1) {
-        const [type, row, seat] = key.split('_');
-        const seatNumber = parseInt(seat);
+        if (noOfSeats > 1) {
+            const [type, row, seat] = key.split('_');
+            const seatNumber = parseInt(seat);
 
-        let consecutiveSeats = 1;
-        while (consecutiveSeats < noOfSeats) {
-          const nextSeatKey = `${type}_${row}_${seatNumber + consecutiveSeats}`;
-          if (!validate(nextSeatKey) && seatNumber + consecutiveSeats <= columns) {
-            newSelectedSeats.add(nextSeatKey);
-            consecutiveSeats++;
-          } else {
-            break;
-          }
+            let consecutiveSeats = 1;
+            while (consecutiveSeats < noOfSeats) {
+                const nextSeatKey = `${type}_${row}_${seatNumber + consecutiveSeats}`;
+                if (!validate(nextSeatKey) && seatNumber + consecutiveSeats <= columns) {
+                    newSelectedSeats.add(nextSeatKey);
+                    consecutiveSeats++;
+                } else {
+                    break;
+                }
+            }
         }
-      }
-      setFull(true);
-      return newSelectedSeats;
+        setFull(true);
+        return newSelectedSeats;
     });
-  };
+};
+
 
   const selectRemainingSeat = (key) => {
     if (selectedSeats.size === noOfSeats) {

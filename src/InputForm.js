@@ -1,13 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Context from './Store/Context';
 import { useNavigate } from 'react-router-dom';
-import { Alert } from 'react-bootstrap'; // Import Alert component from react-bootstrap
-
+import { Alert } from 'react-bootstrap'; 
 const InputForm = () => {
-    const { type, setType, noOfSeats, setNoOfSeats, buyHandler, selectedSeats } = useContext(Context);
+    const { type, setType, noOfSeats, setNoOfSeats, buyHandler, selectedSeats ,setSelectedSeats, setFull} = useContext(Context);
     const [alerts, setAlert] = useState(false);
     const navigate = useNavigate();
-
+    useEffect(()=>{
+        setSelectedSeats(new Set())
+        setFull(false)
+      },[noOfSeats])
     const handleTypeChange = (e) => {
         setType(e.target.value);
     };

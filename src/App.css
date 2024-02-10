@@ -136,3 +136,28 @@ option{
   background-color: red !important;
   color: #666666;
 }
+.color-code-container {
+  display: flex;
+  align-items: center;
+}
+
+.color-code-container span {
+  margin: 0 10px;
+}
+
+.icon {
+  width: 80%;
+  height: 80%;
+}
+
+.available {
+  background-color: grey;
+}
+
+.selected {
+  background-color: green;
+}
+
+.booked, .unavailable {
+  background-color: grey;
+}
